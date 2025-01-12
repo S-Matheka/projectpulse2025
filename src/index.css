@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Dark Mode */
+.dark-theme {
+  --bg-primary: #0f172a;
+  --text-primary: #f3f4f6;
+  --text-secondary: #d1d5db;
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: 100vh;
+}
+
+/* Card Styles */
+.glass-card {
+  @apply rounded-xl transition-all duration-300;
+  border: 1px solid var(--card-border);
+}
+
+/* Dark Mode Cards */
+.dark-theme .glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Card Hover Effects */
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+}
+
+.dark-theme .glass-card-hover:hover {
+  background: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Chart Styles */
+.dark-theme .recharts-cartesian-grid-horizontal line,
+.dark-theme .recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .recharts-text {
+  fill: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark-theme .recharts-legend-item-text {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Table Styles */
+.dark-theme th {
+  @apply bg-gray-800/50 text-gray-300;
+}
+
+.dark-theme td {
+  @apply text-gray-200 border-gray-700;
+}
+
+.dark-theme tr:hover {
+  @apply bg-gray-800/30;
+}
+
+/* Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark-theme .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+/* Theme Toggle Animation */
+.theme-toggle {
+  @apply transition-transform duration-300 ease-in-out;
+}
+
+.theme-toggle:hover {
+  @apply rotate-12;
+}
+
+/* Modal and Drawer Styles */
+.dark-theme .modal-content,
+.dark-theme .drawer-content {
+  @apply bg-gray-800 text-gray-200;
+}
+
+/* Input Styles */
+.dark-theme input,
+.dark-theme select {
+  @apply bg-gray-700 border-gray-600 text-gray-200;
+}
+
+/* Button Styles */
+.dark-theme button {
+  @apply text-gray-200;
+}
+
+.dark-theme button:hover {
+  @apply bg-gray-700;
+}
+
+/* Text Styles */
+.dark-theme .text-primary {
+  @apply text-gray-100;
+}
+
+.dark-theme .text-secondary {
+  @apply text-gray-400;
+}
+
+/* Status Colors */
+.dark-theme .status-positive {
+  @apply text-green-400;
+}
+
+.dark-theme .status-negative {
+  @apply text-red-400;
+}
+
+/* Card Inner Content */
+.dark-theme .card-content {
+  @apply text-gray-300;
+}
+
+/* Section Headers */
+.dark-theme .section-header {
+  @apply text-gray-100 font-semibold;
+}
+
+/* Value Display */
+.dark-theme .value-display {
+  @apply text-gray-100 font-bold;
+}
+
+/* Label Text */
+.dark-theme .label-text {
+  @apply text-gray-400;
+}
