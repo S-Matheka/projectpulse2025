@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-
 import { Popover, Transition } from '@headlessui/react';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -10,6 +9,7 @@ const months = [
 
 const presets = [
   { name: 'Today', days: 0 },
+  { name: 'Yesterday', days: 1 },
   { name: 'Last 7 Days', days: 7 },
   { name: 'Last 30 Days', days: 30 },
   { name: 'Last 90 Days', days: 90 }
@@ -23,9 +23,11 @@ export const DateRangeSelector = ({ isDarkMode }: DateRangeSelectorProps) => {
   const [month, setMonth] = useState(new Date());
   const [selecting, setSelecting] = useState<'start' | 'end' | null>(null);
   const [tempStart, setTempStart] = useState<Date | null>(null);
-  const [dateRange, setDateRange] = useState({
-    start: new Date(Date.now() - 30 * 86400000),
-    end: new Date()
+  const [dateRange, setDateRange] = useState(() => {
+    const end = new Date();
+    const start = new Date(end);
+    start.setDate(end.getDate() - 1);
+    return { start, end };
   });
 
   const getDaysInMonth = (date: Date) => {
@@ -81,6 +83,24 @@ export const DateRangeSelector = ({ isDarkMode }: DateRangeSelectorProps) => {
   };
 
   const formatDateRange = () => {
+    // Check if the date range is yesterday
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    
+    // Check if the selected range matches yesterday
+    if (
+      dateRange.start.getDate() === yesterday.getDate() &&
+      dateRange.start.getMonth() === yesterday.getMonth() &&
+      dateRange.start.getFullYear() === yesterday.getFullYear() &&
+      dateRange.end.getDate() === today.getDate() &&
+      dateRange.end.getMonth() === today.getMonth() &&
+      dateRange.end.getFullYear() === today.getFullYear()
+    ) {
+      return 'Yesterday';
+    }
+
+    // Otherwise show the date range
     const options: Intl.DateTimeFormatOptions = { 
       year: 'numeric',
       month: 'short', 
