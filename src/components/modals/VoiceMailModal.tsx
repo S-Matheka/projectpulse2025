@@ -30,138 +30,110 @@ export const VoiceMailModal = ({ isOpen, onClose, call, isDarkMode = false }: Vo
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
       
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className={`w-full max-w-lg rounded-xl shadow-xl transform transition-all ${
+        <Dialog.Panel className={`w-full max-w-2xl transform transition-all ${
           isDarkMode 
-            ? 'bg-gray-800 border border-gray-700' 
+            ? 'bg-[#1a1f24]' 
             : 'bg-white'
         }`}>
-          <div className={`flex justify-between items-center p-4 border-b ${
-            isDarkMode ? 'border-gray-700' : 'border-gray-200'
-          }`}>
-            <Dialog.Title className={`text-xl font-semibold ${
-              isDarkMode ? 'text-gray-100' : 'text-gray-900'
-            }`}>
-              Voice Mail
-            </Dialog.Title>
-            <button 
-              onClick={onClose}
-              className={`p-2 rounded-lg transition-colors ${
-                isDarkMode 
-                  ? 'hover:bg-gray-700 text-gray-400' 
-                  : 'hover:bg-gray-100 text-gray-500'
-              }`}
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          <div className="p-6 space-y-8">
+            <div className="flex justify-between items-center">
+              <Dialog.Title className={`text-3xl font-semibold ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                Voice Mail
+              </Dialog.Title>
+              <button 
+                onClick={onClose}
+                className={`p-2 rounded-lg transition-colors ${
+                  isDarkMode 
+                    ? 'text-gray-400 hover:text-white' 
+                    : 'text-gray-500 hover:bg-gray-100'
+                }`}
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
 
-          <div className="p-6 space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-8">
               <div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                   Caller
                 </p>
-                <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                <p className={`text-2xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   {call.name}
                 </p>
               </div>
               <div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                   Phone
                 </p>
-                <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                <p className={`text-2xl ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   {call.phone}
-                </p>
-              </div>
-              <div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  Line
-                </p>
-                <p className={`font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
-                  {call.line}
                 </p>
               </div>
             </div>
 
-            <div className={`p-4 rounded-lg ${
-              isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'
-            }`}>
-              <div className="flex items-center space-x-4">
+            <div className={`p-6 rounded-lg ${isDarkMode ? 'bg-[#12161a]' : 'bg-gray-50'}`}>
+              <div className="flex items-center space-x-6">
                 <button 
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                    isDarkMode
-                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
-                  }`}
+                  className="flex items-center justify-center w-14 h-14 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
                 >
-                  {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+                  {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
                 </button>
                 <div className="flex-1">
-                  <div className="relative w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                  <div className={`relative w-full h-2 rounded-full ${
+                    isDarkMode ? 'bg-gray-800' : 'bg-gray-200'
+                  }`}>
                     <div 
-                      className={`absolute h-full rounded-full ${
-                        isDarkMode ? 'bg-blue-500' : 'bg-blue-600'
-                      }`}
+                      className="absolute h-full rounded-full bg-blue-500"
                       style={{ width: `${(currentTime / duration) * 100}%` }}
                     />
                   </div>
-                  <div className="flex justify-between mt-1">
-                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  <div className="flex justify-between mt-2">
+                    <span className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                       {Math.floor(currentTime / 60)}:{(currentTime % 60).toString().padStart(2, '0')}
                     </span>
-                    <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    <span className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                       {Math.floor(duration / 60)}:{(duration % 60).toString().padStart(2, '0')}
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Volume2 className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} />
+                <div className="flex items-center space-x-3">
+                  <Volume2 className={isDarkMode ? 'text-gray-500' : 'text-gray-500'} />
                   <input 
                     type="range" 
                     min="0" 
                     max="100" 
                     defaultValue="100"
-                    className={`w-20 ${isDarkMode ? 'accent-blue-500' : 'accent-blue-600'}`}
+                    className="w-24 accent-blue-500"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => setShowTranscript(!showTranscript)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                  isDarkMode
-                    ? 'border border-gray-700 text-gray-300 hover:bg-gray-700'
-                    : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <FileText className="w-4 h-4" />
-                <span>{showTranscript ? 'Hide Transcript' : 'View Transcript'}</span>
-              </button>
-            </div>
+            <button 
+              onClick={() => setShowTranscript(!showTranscript)}
+              className={`inline-flex items-center space-x-2 px-6 py-3 rounded-lg transition-colors ${
+                isDarkMode
+                  ? 'bg-[#12161a] text-gray-300 hover:bg-[#1a1f24]'
+                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <FileText className="w-5 h-5" />
+              <span>View Transcript</span>
+            </button>
 
             {showTranscript && (
-              <div className={`rounded-lg ${
-                isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'
-              }`}>
-                <div className={`p-4 border-b ${
-                  isDarkMode ? 'border-gray-700' : 'border-gray-200'
-                }`}>
-                  <h4 className={`font-medium ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-900'
-                  }`}>
+              <div className={`rounded-lg ${isDarkMode ? 'bg-[#12161a]' : 'bg-gray-50'}`}>
+                <div className="p-4">
+                  <h4 className={`font-medium mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     Voice Mail Transcript
                   </h4>
-                </div>
-                <div className="p-4">
                   <div className="space-y-4">
                     {dummyTranscript.map((entry, index) => (
                       <div key={index} className="flex space-x-4">
-                        <div className={`w-16 text-sm ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                        }`}>
+                        <div className={`w-16 text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                           {entry.time}
                         </div>
                         <div className="flex-1">

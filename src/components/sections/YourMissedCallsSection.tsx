@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
-import { Eye } from 'lucide-react';
-import { CallViewModal } from '../modals/CallViewModal';
+import { Volume2 } from 'lucide-react';
+import { VoiceMailModal } from '../modals/VoiceMailModal';
 
-interface ReviewCall {
+interface MissedCall {
   id: string;
   name: string;
   phone: string;
-  summary: string;
-  reason: string;
+  line: string;
+  hasVoiceMail: boolean;
 }
 
-const reviewCalls: ReviewCall[] = [
+const missedCalls: MissedCall[] = [
   {
-    id: 'sam-smith',  // Updated ID to match transcript system
+    id: '1',
     name: 'Sam Smith',
     phone: '202-555-1212',
-    summary: 'Customer expressed frustration with service scheduling process.',
-    reason: 'Negative call sentiment'
+    line: 'Service',
+    hasVoiceMail: true
   },
   {
-    id: 'mary-berry',  // Updated ID to match transcript system
+    id: '2',
     name: 'Mary Berry',
     phone: '404-555-1212',
-    summary: 'Multiple unresolved questions about vehicle features.',
-    reason: 'Customer issue not addressed'
+    line: 'Service',
+    hasVoiceMail: false
   }
 ];
 
-interface CallsToReviewSectionProps {
+interface YourMissedCallsSectionProps {
   isDarkMode: boolean;
 }
 
-export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) => {
-  const [selectedCall, setSelectedCall] = useState<ReviewCall | null>(null);
+export const YourMissedCallsSection = ({ isDarkMode }: YourMissedCallsSectionProps) => {
+  const [selectedCall, setSelectedCall] = useState<MissedCall | null>(null);
 
   return (
     <div className={`rounded-lg overflow-hidden ${
@@ -40,7 +40,7 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
     }`}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-          Calls to Review
+          Your Missed Calls
         </h2>
       </div>
       
@@ -49,26 +49,23 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
           <thead className={isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Lead
+                Caller
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
                 Phone Number
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Summary
+                Line
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Reason
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                View Call
+                Voice Mail
               </th>
             </tr>
           </thead>
           <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${
             isDarkMode ? 'bg-gray-800/50' : 'bg-white'
           }`}>
-            {reviewCalls.map((call) => (
+            {missedCalls.map((call) => (
               <tr key={call.id} className={`
                 transition-colors duration-150
                 ${isDarkMode 
@@ -86,28 +83,29 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
                 }`}>
                   {call.phone}
                 </td>
-                <td className={`px-6 py-4 text-sm ${
+                <td className={`px-6 py-4 whitespace-nowrap text-sm ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  {call.summary}
+                  {call.line}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400">
-                    {call.reason}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <button
-                    onClick={() => setSelectedCall(call)}
-                    className={`inline-flex items-center px-3 py-1.5 rounded-lg transition-colors ${
-                      isDarkMode
-                        ? 'text-blue-400 hover:bg-blue-500/10'
-                        : 'text-blue-600 hover:bg-blue-50'
-                    }`}
-                  >
-                    <Eye className="w-4 h-4 mr-1.5" />
-                    View
-                  </button>
+                  {call.hasVoiceMail ? (
+                    <button
+                      onClick={() => setSelectedCall(call)}
+                      className={`inline-flex items-center px-3 py-1.5 rounded-lg transition-colors ${
+                        isDarkMode
+                          ? 'text-blue-400 hover:bg-blue-500/10'
+                          : 'text-blue-600 hover:bg-blue-50'
+                      }`}
+                    >
+                      <Volume2 className="w-4 h-4 mr-1.5" />
+                      Listen
+                    </button>
+                  ) : (
+                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>
+                      None Left
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}
@@ -115,11 +113,10 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
         </table>
       </div>
 
-      <CallViewModal
+      <VoiceMailModal
         isOpen={selectedCall !== null}
         onClose={() => setSelectedCall(null)}
-        lead={selectedCall}
-        type="review"
+        call={selectedCall}
         isDarkMode={isDarkMode}
       />
     </div>

@@ -27,9 +27,9 @@ export const Header = ({
   return (
     <header className={`${isDarkMode ? 'bg-gray-800/95 backdrop-blur-sm' : 'bg-white'} shadow-sm px-4 md:px-6 py-4 relative z-50`}>
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4 md:space-x-8">
+        <div className="flex items-center space-x-4">
           <button 
-            className={`md:hidden ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`} 
+            className={`lg:hidden ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`} 
             onClick={onMenuClick}
           >
             <Menu className="w-6 h-6" />
@@ -40,11 +40,11 @@ export const Header = ({
             <DateRangeSelector isDarkMode={isDarkMode} />
           </div>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           <button 
             onClick={() => setShowGenie(!showGenie)}
             className={`
-              flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300
+              flex items-center space-x-2 px-3 md:px-4 py-2 rounded-lg transition-all duration-300
               ${isDarkMode 
                 ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' 
                 : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
@@ -71,7 +71,7 @@ export const Header = ({
           </button>
           <button 
             onClick={onRefresh}
-            className={`p-2 rounded-full ${
+            className={`hidden md:block p-2 rounded-full ${
               isDarkMode 
                 ? 'hover:bg-gray-700 text-gray-200' 
                 : 'hover:bg-gray-100 text-gray-700'

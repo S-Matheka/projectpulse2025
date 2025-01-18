@@ -21,69 +21,72 @@ export const Sidebar = ({
   onSignOut 
 }: SidebarProps) => {
   const menuItems = [
-    { icon: <LayoutDashboard />, label: 'dashboard' },
-    { icon: <LineChart />, label: 'sales leader' },
-    { icon: <LineChart />, label: 'sales associate' },
-    { icon: <LineChart />, label: 'marketing' },
-    { icon: <BookOpen />, label: 'reports' },
-    { icon: <Settings />, label: 'settings' },
-    { icon: <HelpCircle />, label: 'help center', drawer: 'help' as const },
-    { icon: <FileText />, label: 'resources', drawer: 'resources' as const },
-    { icon: <UserCircle />, label: 'profile', drawer: 'profile' as const }
+    { icon: <LayoutDashboard />, label: 'dashboard', title: 'Dashboard', type: 'page' },
+    { icon: <LineChart />, label: 'sales leader', title: 'Sales Leader', type: 'page' },
+    { icon: <LineChart />, label: 'sales associate', title: 'Sales Associate', type: 'page' },
+    { icon: <LineChart />, label: 'marketing', title: 'Marketing', type: 'page' },
+    { icon: <BookOpen />, label: 'reports', title: 'Reports', type: 'page' },
+    { icon: <Settings />, label: 'settings', title: 'Settings', type: 'page' },
+    { icon: <HelpCircle />, label: 'help center', drawer: 'help' as const, title: 'Help Center', type: 'drawer' },
+    { icon: <FileText />, label: 'resources', drawer: 'resources' as const, title: 'Resources', type: 'drawer' },
+    { icon: <UserCircle />, label: 'profile', drawer: 'profile' as const, title: 'Profile', type: 'drawer' }
   ];
 
   return (
-    <aside className={`
-      fixed md:static inset-y-0 left-0 z-30
+    <div className={`
+      fixed lg:static inset-y-0 left-0 z-40
       w-64 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-r ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}
       transform transition-transform duration-300 ease-in-out
-      ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      h-full overflow-y-auto
     `}>
-      <div className="flex-1 overflow-y-auto">
-        <nav className="p-4">
-          <ul className="space-y-2">
+      <nav className="p-4">
+        <div className="flex flex-col h-full">
+          <div className="flex-1 space-y-1">
             {menuItems.map((item) => (
-              <li key={item.label}>
-                <button
-                  onClick={() => {
-                    if (item.drawer) {
-                      onDrawerOpen(item.drawer);
-                    } else {
-                      onPageChange(item.label);
-                      onClose();
-                    }
-                  }}
-                  className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg ${
-                    activePage === item.label 
-                      ? 'bg-blue-500 text-white' 
-                      : isDarkMode 
-                        ? 'text-gray-200 hover:bg-gray-700' 
-                        : 'text-gray-700 hover:bg-gray-100'
-                  } transition-colors`}
-                >
-                  {React.cloneElement(item.icon, { className: 'w-5 h-5' })}
-                  <span className="font-medium capitalize">{item.label}</span>
-                </button>
-              </li>
-            ))}
-
-            {/* Sign Out Button - Now placed right after the menu items */}
-            <li>
               <button
-                onClick={onSignOut}
-                className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg ${
-                  isDarkMode 
-                    ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' 
-                    : 'bg-red-50 text-red-600 hover:bg-red-100'
-                } transition-colors`}
+                key={item.label}
+                onClick={() => {
+                  if (item.type === 'drawer' && item.drawer) {
+                    onDrawerOpen(item.drawer);
+                  } else {
+                    onPageChange(item.label);
+                    onClose();
+                  }
+                }}
+                className={`
+                  w-full flex items-center space-x-3 px-4 py-3 rounded-lg
+                  ${activePage === item.label 
+                    ? 'bg-blue-500 text-white' 
+                    : isDarkMode 
+                      ? 'text-gray-200 hover:bg-gray-700' 
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }
+                  transition-colors duration-200
+                `}
               >
-                <LogOut className="w-5 h-5" />
-                <span className="font-medium">Sign out</span>
+                {React.cloneElement(item.icon, { className: 'w-5 h-5' })}
+                <span className="font-medium">{item.title}</span>
               </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </aside>
+            ))}
+          </div>
+
+          <button
+            onClick={onSignOut}
+            className={`
+              w-full flex items-center space-x-3 px-4 py-3 rounded-lg mt-4
+              ${isDarkMode 
+                ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' 
+                : 'bg-red-50 text-red-600 hover:bg-red-100'
+              }
+              transition-colors duration-200
+            `}
+          >
+            <LogOut className="w-5 h-5" />
+            <span className="font-medium">Sign out</span>
+          </button>
+        </div>
+      </nav>
+    </div>
   );
 };

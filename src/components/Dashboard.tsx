@@ -11,6 +11,9 @@ import { HelpDrawer } from './drawers/HelpDrawer';
 import { ResourcesDrawer } from './drawers/ResourcesDrawer';
 import { ProfileDrawer } from './drawers/ProfileDrawer';
 import { Genie } from './Genie';
+import { SalesLeaderDashboard } from './pages/SalesLeaderDashboard';
+import { SalesAssociateDashboard } from './pages/SalesAssociateDashboard';
+import { MarketingDashboard } from './pages/MarketingDashboard';
 
 interface DashboardProps {
   onSignOut: () => void;
@@ -22,10 +25,57 @@ export const Dashboard = ({ onSignOut }: DashboardProps) => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [activeDrawer, setActiveDrawer] = useState<'help' | 'resources' | 'profile' | null>(null);
   const [showGenie, setShowGenie] = useState(false);
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
+
+  const handleViewAgent = (agentId: string) => {
+    setSelectedAgentId(agentId);
+    setActivePage('sales associate');
+  };
+
+  const renderDashboardContent = () => {
+    switch (activePage) {
+      case 'dashboard':
+        return (
+          <>
+            <SalesTeamSection isDarkMode={isDarkMode} />
+            <InboundCallsSection isDarkMode={isDarkMode} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-6">
+                <PursueSection isDarkMode={isDarkMode} />
+                <CallsToReviewSection isDarkMode={isDarkMode} />
+              </div>
+              <div className="space-y-6">
+                <MissedCallsSection isDarkMode={isDarkMode} />
+                <TrendingTopicsSection isDarkMode={isDarkMode} />
+              </div>
+            </div>
+          </>
+        );
+      case 'sales leader':
+        return <SalesLeaderDashboard isDarkMode={isDarkMode} onViewAgent={handleViewAgent} />;
+      case 'sales associate':
+        return <SalesAssociateDashboard isDarkMode={isDarkMode} agentId={selectedAgentId} />;
+      case 'marketing':
+        return <MarketingDashboard isDarkMode={isDarkMode} />;
+      default:
+        return (
+          <div className={`text-center py-12 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            Select a dashboard from the sidebar
+          </div>
+        );
+    }
+  };
 
   return (
     <div className={`h-screen flex flex-col ${isDarkMode ? 'dark-theme' : 'bg-gray-50'}`}>
-      {/* Fixed Header */}
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       <div className="fixed top-0 left-0 right-0 z-50">
         <Header 
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} 
@@ -37,13 +87,22 @@ export const Dashboard = ({ onSignOut }: DashboardProps) => {
         />
       </div>
 
-      {/* Main Content Area */}
       <div className="flex flex-1 pt-[73px]">
-        {/* Fixed Sidebar */}
-        <div className="fixed left-0 top-[73px] bottom-[57px] w-64 z-40">
+        {/* Sidebar - Mobile Friendly */}
+        <div className={`
+          fixed lg:static inset-y-0 left-0 z-40
+          w-64 transform transition-transform duration-300 ease-in-out
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isDarkMode ? 'bg-gray-800' : 'bg-white'} 
+          border-r ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}
+        `}>
           <Sidebar 
-            onPageChange={setActivePage} 
-            activePage={activePage} 
+            onPageChange={(page) => {
+              setActivePage(page);
+              setSelectedAgentId(null);
+              setIsSidebarOpen(false);
+            }}
+            activePage={activePage}
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
             isDarkMode={isDarkMode}
@@ -52,48 +111,34 @@ export const Dashboard = ({ onSignOut }: DashboardProps) => {
           />
         </div>
 
-        {/* Main Content - Scrollable with left margin for sidebar */}
-        <div className="flex-1 ml-64">
-          {/* Scrollable Content */}
+        {/* Main Content - Mobile Friendly */}
+        <div className="flex-1 w-full">
           <main className="h-[calc(100vh-130px)] overflow-y-auto">
-            <div className="p-6 max-w-[1600px] mx-auto w-full space-y-6">
-              <SalesTeamSection isDarkMode={isDarkMode} />
-              <InboundCallsSection isDarkMode={isDarkMode} />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="space-y-6">
-                  <PursueSection isDarkMode={isDarkMode} />
-                  <CallsToReviewSection isDarkMode={isDarkMode} />
-                </div>
-                <div className="space-y-6">
-                  <MissedCallsSection isDarkMode={isDarkMode} />
-                  <TrendingTopicsSection isDarkMode={isDarkMode} />
-                </div>
-              </div>
+            <div className="p-4 md:p-6 max-w-[1600px] mx-auto w-full space-y-6">
+              {renderDashboardContent()}
             </div>
           </main>
 
-          {/* Fixed Footer */}
-          <footer className={`fixed bottom-0 left-64 right-0 py-4 px-6 border-t z-40 ${
+          <footer className={`fixed bottom-0 right-0 py-4 px-4 md:px-6 border-t z-40 w-full lg:w-[calc(100%-16rem)] ${
             isDarkMode ? 'border-gray-700/50 bg-gray-800/95' : 'border-gray-200 bg-white'
           }`}>
             <div className="max-w-[1600px] mx-auto">
               <p className={`text-sm text-center ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>
-                ©2024 by Creo Solutions
+                Powered by Creo Solutions
               </p>
             </div>
           </footer>
         </div>
 
-        {/* Genie Drawer */}
+        {/* Drawers */}
         <Genie 
           isOpen={showGenie} 
           onClose={() => setShowGenie(false)} 
           isDarkMode={isDarkMode}
         />
 
-        {/* Other Drawers */}
         <HelpDrawer 
           isOpen={activeDrawer === 'help'} 
           onClose={() => setActiveDrawer(null)} 

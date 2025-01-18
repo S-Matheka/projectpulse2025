@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
-import { CallViewModal } from '../modals/CallViewModal';
+import { CallViewModal } from '../../modals/CallViewModal';
 
 interface ReviewCall {
   id: string;
@@ -12,26 +12,26 @@ interface ReviewCall {
 
 const reviewCalls: ReviewCall[] = [
   {
-    id: 'sam-smith',  // Updated ID to match transcript system
-    name: 'Sam Smith',
-    phone: '202-555-1212',
-    summary: 'Customer expressed frustration with service scheduling process.',
-    reason: 'Negative call sentiment'
+    id: 'caller-2',  // Updated to match transcript ID
+    name: 'Caller 2',
+    phone: '425-555-1212',
+    summary: 'Customer expressed high satisfaction with service department experience.',
+    reason: 'Caller was very positive'
   },
   {
-    id: 'mary-berry',  // Updated ID to match transcript system
-    name: 'Mary Berry',
-    phone: '404-555-1212',
-    summary: 'Multiple unresolved questions about vehicle features.',
-    reason: 'Customer issue not addressed'
+    id: 'marketing',  // Updated to match transcript ID
+    name: 'Caller 1',
+    phone: '303-555-1212',
+    summary: 'Long-time customer praising dealership service quality.',
+    reason: 'Caller is very loyal to our dealership'
   }
 ];
 
-interface CallsToReviewSectionProps {
+interface MarketingCallsToReviewSectionProps {
   isDarkMode: boolean;
 }
 
-export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) => {
+export const MarketingCallsToReviewSection = ({ isDarkMode }: MarketingCallsToReviewSectionProps) => {
   const [selectedCall, setSelectedCall] = useState<ReviewCall | null>(null);
 
   return (
@@ -43,7 +43,7 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
           Calls to Review
         </h2>
       </div>
-      
+
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className={isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}>
@@ -92,7 +92,7 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
                   {call.summary}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400">
+                  <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400">
                     {call.reason}
                   </span>
                 </td>

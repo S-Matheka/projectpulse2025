@@ -2,37 +2,34 @@ import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 import { CallViewModal } from '../modals/CallViewModal';
 
-interface ReviewCall {
+interface Lead {
   id: string;
   name: string;
   phone: string;
   summary: string;
-  reason: string;
 }
 
-const reviewCalls: ReviewCall[] = [
+const pursueLeads: Lead[] = [
   {
-    id: 'sam-smith',  // Updated ID to match transcript system
-    name: 'Sam Smith',
-    phone: '202-555-1212',
-    summary: 'Customer expressed frustration with service scheduling process.',
-    reason: 'Negative call sentiment'
+    id: 'sally-smith',  // Updated to match transcript ID exactly
+    name: 'Sally Smith',
+    phone: '770-555-1212',
+    summary: 'Customer interested in 2024 Honda Civic, requested financing information.'
   },
   {
-    id: 'mary-berry',  // Updated ID to match transcript system
-    name: 'Mary Berry',
-    phone: '404-555-1212',
-    summary: 'Multiple unresolved questions about vehicle features.',
-    reason: 'Customer issue not addressed'
+    id: 'jim-jones',    // Updated to match transcript ID exactly
+    name: 'Jim Jones',
+    phone: '678-555-1212',
+    summary: 'Follow-up needed regarding service appointment scheduling and warranty coverage.'
   }
 ];
 
-interface CallsToReviewSectionProps {
+interface PursueForYouSectionProps {
   isDarkMode: boolean;
 }
 
-export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) => {
-  const [selectedCall, setSelectedCall] = useState<ReviewCall | null>(null);
+export const PursueForYouSection = ({ isDarkMode }: PursueForYouSectionProps) => {
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
   return (
     <div className={`rounded-lg overflow-hidden ${
@@ -40,7 +37,7 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
     }`}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-          Calls to Review
+          Pursue for You
         </h2>
       </div>
       
@@ -58,9 +55,6 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
                 Summary
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Reason
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
                 View Call
               </th>
             </tr>
@@ -68,8 +62,8 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
           <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${
             isDarkMode ? 'bg-gray-800/50' : 'bg-white'
           }`}>
-            {reviewCalls.map((call) => (
-              <tr key={call.id} className={`
+            {pursueLeads.map((lead) => (
+              <tr key={lead.id} className={`
                 transition-colors duration-150
                 ${isDarkMode 
                   ? 'hover:bg-gray-700/50' 
@@ -79,26 +73,21 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
                 <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
                   isDarkMode ? 'text-gray-200' : 'text-gray-900'
                 }`}>
-                  {call.name}
+                  {lead.name}
                 </td>
                 <td className={`px-6 py-4 whitespace-nowrap text-sm ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  {call.phone}
+                  {lead.phone}
                 </td>
                 <td className={`px-6 py-4 text-sm ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  {call.summary}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400">
-                    {call.reason}
-                  </span>
+                  {lead.summary}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <button
-                    onClick={() => setSelectedCall(call)}
+                    onClick={() => setSelectedLead(lead)}
                     className={`inline-flex items-center px-3 py-1.5 rounded-lg transition-colors ${
                       isDarkMode
                         ? 'text-blue-400 hover:bg-blue-500/10'
@@ -116,10 +105,10 @@ export const CallsToReviewSection = ({ isDarkMode }: CallsToReviewSectionProps) 
       </div>
 
       <CallViewModal
-        isOpen={selectedCall !== null}
-        onClose={() => setSelectedCall(null)}
-        lead={selectedCall}
-        type="review"
+        isOpen={selectedLead !== null}
+        onClose={() => setSelectedLead(null)}
+        lead={selectedLead}
+        type="call"
         isDarkMode={isDarkMode}
       />
     </div>

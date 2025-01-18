@@ -5,9 +5,10 @@ import { LoginPage } from './components/auth/LoginPage';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = (email: string, password: string) => {
-    // Demo credentials check
-    if (email === 'simeon.matheka@creosolutions.tech' && password === 'Projectpulse2025!') {
+  const handleLogin = (emailOrUsername: string, password: string) => {
+    // Check for either email or username with the same password
+    if ((emailOrUsername === 'simeon.matheka@creosolutions.tech' || emailOrUsername === 'projectpulse') 
+        && password === 'Projectpulse2025!') {
       setIsAuthenticated(true);
     }
   };

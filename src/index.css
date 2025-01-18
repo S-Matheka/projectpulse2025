@@ -4,7 +4,7 @@
 
 /* Theme transitions */
 * {
-  @apply transition-colors duration-200;
+  @apply transition-colors duration-150 ease-in-out;
 }
 
 /* Dark Mode */
@@ -16,11 +16,12 @@
   --card-border: rgba(255, 255, 255, 0.1);
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   min-height: 100vh;
+  transition: background-color 150ms ease-in-out;
 }
 
 /* Card Styles */
 .glass-card {
-  @apply rounded-xl transition-all duration-300;
+  @apply rounded-xl transition-all duration-150 ease-in-out;
   border: 1px solid var(--card-border);
 }
 
@@ -30,124 +31,149 @@
   backdrop-filter: blur(12px);
   border: 1px solid var(--card-border);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: all 150ms ease-in-out;
 }
 
 /* Card Hover Effects */
 .glass-card-hover:hover {
   transform: translateY(-2px);
+  transition: transform 150ms ease-in-out;
 }
 
 .dark-theme .glass-card-hover:hover {
   background: rgba(30, 41, 59, 0.85);
   box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 255, 255, 0.2);
+  transition: all 150ms ease-in-out;
 }
 
 /* Chart Styles */
 .dark-theme .recharts-cartesian-grid-horizontal line,
 .dark-theme .recharts-cartesian-grid-vertical line {
   stroke: rgba(255, 255, 255, 0.1);
+  transition: stroke 150ms ease-in-out;
 }
 
 .dark-theme .recharts-text {
   fill: rgba(255, 255, 255, 0.8) !important;
+  transition: fill 150ms ease-in-out;
 }
 
 .dark-theme .recharts-legend-item-text {
   color: rgba(255, 255, 255, 0.8) !important;
+  transition: color 150ms ease-in-out;
 }
 
 /* Table Styles */
 .dark-theme th {
   @apply bg-gray-800/50 text-gray-300;
+  transition: all 150ms ease-in-out;
 }
 
 .dark-theme td {
   @apply text-gray-200 border-gray-700;
+  transition: all 150ms ease-in-out;
 }
 
 .dark-theme tr:hover {
   @apply bg-gray-800/30;
+  transition: background-color 150ms ease-in-out;
 }
 
 /* Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
+  transition: all 150ms ease-in-out;
 }
 
 .dark-theme .custom-scrollbar::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
+  transition: background-color 150ms ease-in-out;
 }
 
 .dark-theme .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
+  transition: background-color 150ms ease-in-out;
 }
 
 /* Theme Toggle Animation */
 .theme-toggle {
-  @apply transition-transform duration-300 ease-in-out;
+  @apply transition-transform duration-150 ease-in-out;
 }
 
 .theme-toggle:hover {
   @apply rotate-12;
+  transition: transform 150ms ease-in-out;
 }
 
 /* Modal and Drawer Styles */
 .dark-theme .modal-content,
 .dark-theme .drawer-content {
   @apply bg-gray-800 text-gray-200;
+  transition: all 150ms ease-in-out;
 }
 
 /* Input Styles */
 .dark-theme input,
 .dark-theme select {
   @apply bg-gray-700 border-gray-600 text-gray-200;
+  transition: all 150ms ease-in-out;
 }
 
 /* Button Styles */
 .dark-theme button {
   @apply text-gray-200;
+  transition: all 150ms ease-in-out;
 }
 
 .dark-theme button:hover {
   @apply bg-gray-700;
+  transition: background-color 150ms ease-in-out;
 }
 
 /* Text Styles */
 .dark-theme .text-primary {
   @apply text-gray-100;
+  transition: color 150ms ease-in-out;
 }
 
 .dark-theme .text-secondary {
   @apply text-gray-400;
+  transition: color 150ms ease-in-out;
 }
 
 /* Status Colors */
 .dark-theme .status-positive {
   @apply text-green-400;
+  transition: color 150ms ease-in-out;
 }
 
 .dark-theme .status-negative {
   @apply text-red-400;
+  transition: color 150ms ease-in-out;
 }
 
 /* Card Inner Content */
 .dark-theme .card-content {
   @apply text-gray-300;
+  transition: color 150ms ease-in-out;
 }
 
 /* Section Headers */
 .dark-theme .section-header {
   @apply text-gray-100 font-semibold;
+  transition: color 150ms ease-in-out;
 }
 
 /* Value Display */
 .dark-theme .value-display {
   @apply text-gray-100 font-bold;
+  transition: color 150ms ease-in-out;
 }
 
 /* Label Text */
 .dark-theme .label-text {
   @apply text-gray-400;
+  transition: color 150ms ease-in-out;
 }

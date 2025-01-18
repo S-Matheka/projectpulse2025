@@ -1,72 +1,87 @@
-import React, { useState } from 'react';
-import { Volume2 } from 'lucide-react';
-import { VoiceMailModal } from '../modals/VoiceMailModal';
+import React from 'react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
-interface MissedCall {
-  id: string;
-  name: string;
-  phone: string;
-  line: string;
-  hasVoiceMail: boolean;
-}
-
-const missedCalls: MissedCall[] = [
-  {
-    id: '1',
-    name: 'Sam Smith',
-    phone: '202-555-1212',
-    line: 'Service',
-    hasVoiceMail: true
-  },
-  {
-    id: '2',
-    name: 'Mary Berry',
-    phone: '404-555-1212',
-    line: 'Service',
-    hasVoiceMail: false
-  }
-];
-
-interface MissedCallsSectionProps {
+interface YourPerformanceProps {
   isDarkMode: boolean;
 }
 
-export const MissedCallsSection = ({ isDarkMode }: MissedCallsSectionProps) => {
-  const [selectedCall, setSelectedCall] = useState<MissedCall | null>(null);
+const performanceData = {
+  metrics: [
+    {
+      name: 'Total Calls',
+      you: 523,
+      goal: 500,
+      topPerformer: 1228,
+      trend: 8
+    },
+    {
+      name: 'Live Conversations',
+      you: 412,
+      goal: 400,
+      topPerformer: 856,
+      trend: 12
+    },
+    {
+      name: 'Vehicle Conversations',
+      you: 187,
+      goal: 200,
+      topPerformer: 328,
+      trend: -5
+    },
+    {
+      name: 'Firm vs. Soft Appointments',
+      you: '89/102',
+      goal: '75/100',
+      topPerformer: '76/98',
+      trend: 15
+    },
+    {
+      name: 'Appointment Requests',
+      you: 156,
+      goal: 150,
+      topPerformer: 244,
+      trend: 10
+    }
+  ]
+};
 
+export const YourPerformanceSection = ({ isDarkMode }: YourPerformanceProps) => {
   return (
     <div className={`rounded-lg overflow-hidden ${
       isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white border border-gray-200'
     }`}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <h2 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-          Missed Calls
+          Your Performance
         </h2>
       </div>
-      
+
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className={isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}>
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Caller
+                Metric
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Phone Number
+                You
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Line
+                Goal
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
-                Voice Mail
+                Top Performer
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium tracking-wider uppercase text-gray-500 dark:text-gray-400">
+                Trend
               </th>
             </tr>
           </thead>
           <tbody className={`divide-y divide-gray-200 dark:divide-gray-700 ${
             isDarkMode ? 'bg-gray-800/50' : 'bg-white'
           }`}>
-            {missedCalls.map((call) => (
-              <tr key={call.id} className={`
+            {performanceData.metrics.map((metric, index) => (
+              <tr key={index} className={`
                 transition-colors duration-150
                 ${isDarkMode 
                   ? 'hover:bg-gray-700/50' 
@@ -76,49 +91,40 @@ export const MissedCallsSection = ({ isDarkMode }: MissedCallsSectionProps) => {
                 <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
                   isDarkMode ? 'text-gray-200' : 'text-gray-900'
                 }`}>
-                  {call.name}
+                  {metric.name}
                 </td>
                 <td className={`px-6 py-4 whitespace-nowrap text-sm ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  {call.phone}
+                  {metric.you}
                 </td>
                 <td className={`px-6 py-4 whitespace-nowrap text-sm ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  {call.line}
+                  {metric.goal}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  {call.hasVoiceMail ? (
-                    <button
-                      onClick={() => setSelectedCall(call)}
-                      className={`inline-flex items-center px-3 py-1.5 rounded-lg transition-colors ${
-                        isDarkMode
-                          ? 'text-blue-400 hover:bg-blue-500/10'
-                          : 'text-blue-600 hover:bg-blue-50'
-                      }`}
-                    >
-                      <Volume2 className="w-4 h-4 mr-1.5" />
-                      Listen
-                    </button>
-                  ) : (
-                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}>
-                      None Left
-                    </span>
-                  )}
+                <td className={`px-6 py-4 whitespace-nowrap text-sm ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  {metric.topPerformer}
+                </td>
+                <td className={`px-6 py-4 whitespace-nowrap text-sm`}>
+                  <div className={`flex items-center space-x-1 ${
+                    metric.trend > 0 ? 'text-green-500' : 'text-red-500'
+                  }`}>
+                    {metric.trend > 0 ? (
+                      <TrendingUp className="w-4 h-4" />
+                    ) : (
+                      <TrendingDown className="w-4 h-4" />
+                    )}
+                    <span>{Math.abs(metric.trend)}%</span>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      <VoiceMailModal
-        isOpen={selectedCall !== null}
-        onClose={() => setSelectedCall(null)}
-        call={selectedCall}
-        isDarkMode={isDarkMode}
-      />
     </div>
   );
 };

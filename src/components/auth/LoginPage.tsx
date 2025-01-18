@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, AlertCircle, User, Mail } from 'lucide-react';
 import { Logo } from '../Logo';
 
 interface LoginPageProps {
-  onLogin: (email: string, password: string) => void;
+  onLogin: (emailOrUsername: string, password: string) => void;
 }
 
 export const LoginPage = ({ onLogin }: LoginPageProps) => {
-  const [email, setEmail] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loginType, setLoginType] = useState<'email' | 'username'>('email');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,16 +23,31 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (email === 'simeon.matheka@creosolutions.tech' && password === 'Projectpulse2025!') {
-        onLogin(email, password);
+      // Check if using email or username
+      if (loginType === 'email') {
+        if (emailOrUsername === 'simeon.matheka@creosolutions.tech' && password === 'Projectpulse2025!') {
+          onLogin(emailOrUsername, password);
+        } else {
+          setError('Invalid email or password');
+        }
       } else {
-        setError('Invalid email or password');
+        if ((emailOrUsername === 'projectpulse') && password === 'Projectpulse2025!') {
+          onLogin(emailOrUsername, password);
+        } else {
+          setError('Invalid username or password');
+        }
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const toggleLoginType = () => {
+    setLoginType(prev => prev === 'email' ? 'username' : 'email');
+    setEmailOrUsername('');
+    setError('');
   };
 
   return (
@@ -60,20 +76,36 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
 
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-                    Email address
-                  </label>
-                  <div className="mt-1">
+                  <div className="flex justify-between items-center mb-2">
+                    <label htmlFor="emailOrUsername" className="block text-sm font-medium text-gray-300">
+                      {loginType === 'email' ? 'Email address' : 'Username'}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={toggleLoginType}
+                      className="text-sm text-blue-400 hover:text-blue-300"
+                    >
+                      Use {loginType === 'email' ? 'username' : 'email'} instead
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      {loginType === 'email' ? (
+                        <Mail className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <User className="h-5 w-5 text-gray-400" />
+                      )}
+                    </div>
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
+                      id="emailOrUsername"
+                      name="emailOrUsername"
+                      type={loginType === 'email' ? 'email' : 'text'}
+                      autoComplete={loginType === 'email' ? 'email' : 'username'}
                       required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="appearance-none block w-full px-3 py-2 border border-gray-700 rounded-lg bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your email"
+                      value={emailOrUsername}
+                      onChange={(e) => setEmailOrUsername(e.target.value)}
+                      className="appearance-none block w-full px-3 py-2 pl-10 border border-gray-700 rounded-lg bg-gray-800 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder={loginType === 'email' ? 'Enter your email' : 'Enter your username'}
                     />
                   </div>
                 </div>
@@ -175,7 +207,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
                 "This dashboard has transformed how we handle our customer interactions. The real-time insights are invaluable."
               </p>
               <footer className="text-sm text-gray-300">
-                Sarah Wilson, Sales Manager
+                Amy, Sales Manager
               </footer>
             </blockquote>
           </div>

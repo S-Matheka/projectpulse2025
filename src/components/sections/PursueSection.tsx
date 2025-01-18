@@ -11,19 +11,20 @@ interface Lead {
 
 const pursueLeads: Lead[] = [
   {
-    id: '1',
+    id: 'sally-smith',  // Updated to match transcript ID exactly
     name: 'Sally Smith',
     phone: '770-555-1212',
     summary: 'Customer interested in 2024 Honda Civic, requested financing information.'
   },
   {
-    id: '2',
+    id: 'jim-jones',    // Updated to match transcript ID exactly
     name: 'Jim Jones',
     phone: '678-555-1212',
     summary: 'Follow-up needed regarding service appointment scheduling and warranty coverage.'
   }
 ];
 
+// Rest of the component remains the same
 interface PursueSectionProps {
   isDarkMode: boolean;
 }
@@ -40,6 +41,7 @@ export const PursueSection = ({ isDarkMode }: PursueSectionProps) => {
           Pursue
         </h2>
       </div>
+      
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className={isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}>
@@ -108,6 +110,7 @@ export const PursueSection = ({ isDarkMode }: PursueSectionProps) => {
         onClose={() => setSelectedLead(null)}
         lead={selectedLead}
         type="call"
+        isDarkMode={isDarkMode}
       />
     </div>
   );
